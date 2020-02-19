@@ -40,7 +40,9 @@ namespace UnityStandardAssets._2D
             for (int i = 0; i < colliders.Length; i++)
             {
                 if (colliders[i].gameObject != gameObject)
+                {
                     m_Grounded = true;
+                }
             }
             m_Anim.SetBool("Ground", m_Grounded);
 
@@ -91,12 +93,17 @@ namespace UnityStandardAssets._2D
                     Flip();
                 }
             }
+            print("1. m_Grounded == " + m_Grounded.ToString());
+            print("2. jump == " + jump.ToString());
+            print("3. m_Anim.GetBool(\"Ground\") == " + m_Anim.GetBool("Ground").ToString());
             // If the player should jump...
             if (m_Grounded && jump && m_Anim.GetBool("Ground"))
             {
                 // Add a vertical force to the player.
                 m_Grounded = false;
                 m_Anim.SetBool("Ground", false);
+                print("JUMPING!");
+                print("m_JumpForce == " + m_JumpForce);
                 m_Rigidbody2D.AddForce(new Vector2(0f, m_JumpForce));
             }
         }

@@ -18,11 +18,11 @@ namespace UnityStandardAssets._2D
 
         private void Update()
         {
-            if (!m_Jump)
-            {
-                // Read the jump input in Update so button presses aren't missed.
-                m_Jump = Input.GetButtonDown("Jump");
-            }
+            //if (!m_Jump)
+            //{
+            //    // Read the jump input in Update so button presses aren't missed.
+            //    m_Jump = Input.GetButtonDown("Jump");
+            //}
         }
 
 
@@ -31,8 +31,14 @@ namespace UnityStandardAssets._2D
             // Read the inputs.
             bool crouch = Input.GetKey(KeyCode.LeftControl);
             float h = Input.GetAxis("Horizontal");
-       
+            if (!m_Jump)
+            {
+                // Read the jump input in Update so button presses aren't missed.
+                m_Jump = Input.GetButtonDown("Jump");
+            }
+
             // Pass all parameters to the character control script.
+            print("m_Jump == " + m_Jump.ToString());
             m_Character.Move(h, crouch, m_Jump);
             m_Jump = false;
         }
