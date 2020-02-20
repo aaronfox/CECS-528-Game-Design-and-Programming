@@ -146,11 +146,15 @@ namespace UnityStandardAssets._2D
                 other.gameObject.SetActive(false);
                 //Destroy(other.gameObject);
             }
-            if (other.gameObject.CompareTag("Spike"))
+            if (other.gameObject.CompareTag("Damage"))
             {
                 // Robot is dead
                 print("You died!");
                 // Freeze player so user cannot play after they die
+                m_Anim.SetBool("Dead", true);
+                // Move toward ground and then freeze input on player
+                Vector2 target = new Vector2(transform.position.x, -2.66f);
+                transform.position = Vector2.MoveTowards(transform.position, target, 10f);
                 m_Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
                 gameOverText.gameObject.SetActive(true);
                 restartButton.gameObject.SetActive(true);

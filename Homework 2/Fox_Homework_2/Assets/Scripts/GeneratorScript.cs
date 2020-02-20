@@ -173,7 +173,23 @@ public class GeneratorScript : MonoBehaviour
         //3
         float objectPositionX = lastObjectX + Random.Range(objectsMinDistance, objectsMaxDistance);
         float randomY = Random.Range(objectsMinY, objectsMaxY);
+
+        // Ensure spikes are only on floor or ceiling
+        if (randomIndex == 1)
+        {
+            float rand = Random.Range(0.0f, 1.0f);
+            if (rand > 0.5)
+            {
+                randomY = -2.9f;
+            }
+            else
+            {
+                randomY = 3.2f;
+            }
+        }
+
         obj.transform.position = new Vector3(objectPositionX, randomY, 0);
+
 
         //4
         float rotation = Random.Range(objectsMinRotation, objectsMaxRotation);
