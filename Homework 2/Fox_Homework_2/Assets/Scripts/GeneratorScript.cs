@@ -87,6 +87,11 @@ public class GeneratorScript : MonoBehaviour
             roomCenter = roomCenter - 4.8f;
             farthestRoomEndX = farthestRoomEndX - 4.8f;
         }
+        if ((randomRoomIndex == 1 || randomRoomIndex == 0) && lastIndexRoom == 2)
+        {
+            roomCenter = roomCenter + 4.8f;
+            farthestRoomEndX = farthestRoomEndX + 4.8f;
+        }
         lastIndexRoom = randomRoomIndex;
 
 
