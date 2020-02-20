@@ -67,7 +67,6 @@ public class GeneratorScript : MonoBehaviour
 
     private void AddRoom(float farthestRoomEndX)
     {
-        print("farthestRoomEndX == " + farthestRoomEndX);
         //1
         int randomRoomIndex = Random.Range(0, availableRooms.Length);
         //randomRoomIndex = 2;

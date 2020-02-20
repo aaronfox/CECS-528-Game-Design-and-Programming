@@ -1,5 +1,7 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 namespace UnityStandardAssets._2D
 {
@@ -10,6 +12,9 @@ namespace UnityStandardAssets._2D
         [Range(0, 1)] [SerializeField] private float m_CrouchSpeed = .36f;  // Amount of maxSpeed applied to crouching movement. 1 = 100%
         [SerializeField] private bool m_AirControl = false;                 // Whether or not a player can steer while jumping;
         [SerializeField] private LayerMask m_WhatIsGround;                  // A mask determining what is ground to the character
+        [SerializeField] private Text scoreText;
+        [SerializeField] private Text gameOverText;
+        [SerializeField] private Button restartButton;
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -19,6 +24,7 @@ namespace UnityStandardAssets._2D
         private Animator m_Anim;            // Reference to the player's animator component.
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
+        private int score = 0;
 
         private void Awake()
         {
@@ -27,6 +33,7 @@ namespace UnityStandardAssets._2D
             m_CeilingCheck = transform.Find("CeilingCheck");
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
+            //scoreText = GetComponent<Text>();
         }
 
 
@@ -55,14 +62,15 @@ namespace UnityStandardAssets._2D
         {
             
             // If crouching, check to see if the character can stand up
-            if (!crouch && m_Anim.GetBool("Crouch"))
-            {
-                // If the character has a ceiling preventing them from standing up, keep them crouching
-                if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
-                {
-                    crouch = true;
-                }
-            }
+            //if (!crouch && m_Anim.GetBool("Crouch"))
+            //{
+            //    // If the character has a ceiling preventing them from standing up, keep them crouching
+            //    if (Physics2D.OverlapCircle(m_CeilingCheck.position, k_CeilingRadius, m_WhatIsGround))
+            //    {
+            //        print("in ceiling!");
+            //        crouch = true;
+            //    }
+            //}
 
             // Set whether or not the character is crouching in the animator
             m_Anim.SetBool("Crouch", crouch);
@@ -72,6 +80,8 @@ namespace UnityStandardAssets._2D
             {
                 // Reduce the speed if crouching by the crouchSpeed multiplier
                 move = (crouch ? move*m_CrouchSpeed : move);
+                if (crouch)
+                    print("crouching!");
 
                 // The Speed animator parameter is set to the absolute value of the horizontal input.
                 float speed = Mathf.Abs(move) * m_MaxSpeed; 
@@ -114,5 +124,42 @@ namespace UnityStandardAssets._2D
             theScale.x *= -1;
             transform.localScale = theScale;
         }
+
+        public void RestartGame()
+        {
+            print("restarting game");
+            SceneManager.LoadScene("SampleScene");
+            //score = 0;
+            //scoreText.text = "Score: 0";
+            //m_Rigidbody2D.constraints = RigidbodyConstraints2D.None;
+            //gameOverText.gameObject.SetActive(false);
+            //restartButton.gameObject.SetActive(false);
+        }
+
+        void OnTriggerEnter2D(Collider2D other)
+        {
+            if (other.gameObject.CompareTag("Coin"))
+            {
+                score++;
+                scoreText.text = "Score: " + score;
+                // Don't need to destroy coin since GeneratorScript takes care of that
+                other.gameObject.SetActive(false);
+                //Destroy(other.gameObject);
+            }
+            if (other.gameObject.CompareTag("Spike"))
+            {
+                // Robot is dead
+                print("You died!");
+                // Freeze player so user cannot play after they die
+                m_Rigidbody2D.constraints = RigidbodyConstraints2D.FreezeAll;
+                gameOverText.gameObject.SetActive(true);
+                restartButton.gameObject.SetActive(true);
+                //restartButton.enabled = true;
+                //other.gameObject.SetActive(false);
+            }
+        }
+
     }
+
+    
 }
