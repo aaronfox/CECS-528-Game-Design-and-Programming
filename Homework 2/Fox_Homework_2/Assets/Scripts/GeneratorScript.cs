@@ -49,6 +49,8 @@ public class GeneratorScript : MonoBehaviour
 
     public float objectsMinRotation = -45.0f;
     public float objectsMaxRotation = 45.0f;
+    // Because the long room (room3) is off if the room1 or room2 comes before it
+    private int lastIndexRoom = 1;
 
     // Use this for initialization
     private void Start()
@@ -63,10 +65,12 @@ public class GeneratorScript : MonoBehaviour
     {
     }
 
-    private void AddRoom(float farhtestRoomEndX)
+    private void AddRoom(float farthestRoomEndX)
     {
+        print("farthestRoomEndX == " + farthestRoomEndX);
         //1
         int randomRoomIndex = Random.Range(0, availableRooms.Length);
+        //randomRoomIndex = 2;
 
         //2
         GameObject room = (GameObject)Instantiate(availableRooms[randomRoomIndex]);
@@ -75,14 +79,26 @@ public class GeneratorScript : MonoBehaviour
         float roomWidth = room.transform.Find("floor").localScale.x;
 
         //4
-        float roomCenter = farhtestRoomEndX + roomWidth * 0.5f;
+        float roomCenter = farthestRoomEndX + roomWidth * 0.5f;
+        // NOTE: I added this because the script wouldn't correctly position
+        // room3 otherwise
+        if (randomRoomIndex == 2 && (lastIndexRoom == 1 || lastIndexRoom == 0))
+        {
+            roomCenter = roomCenter - 4.8f;
+            farthestRoomEndX = farthestRoomEndX - 4.8f;
+        }
+        lastIndexRoom = randomRoomIndex;
+
 
         //5
         room.transform.position = new Vector3(roomCenter, 0, 0);
 
+
         //6
         currentRooms.Add(room);
     }
+
+    public float farthestRoomEndX = 0;
 
     private void GenerateRoomIfRequired()
     {
@@ -97,7 +113,7 @@ public class GeneratorScript : MonoBehaviour
         //5
         float addRoomX = playerX + screenWidthInPoints;
         //6
-        float farthestRoomEndX = 0;
+        farthestRoomEndX = 0;
         foreach (var room in currentRooms)
         {
             //7
@@ -121,6 +137,8 @@ public class GeneratorScript : MonoBehaviour
         foreach (var room in roomsToRemove)
         {
             currentRooms.Remove(room);
+            // This attempts to destroy a prefab which is not allowed
+            // see https://answers.unity.com/questions/164283/destroying-assets-is-not-permitted-to-avoid-data-l.html
             Destroy(room);
         }
         //12

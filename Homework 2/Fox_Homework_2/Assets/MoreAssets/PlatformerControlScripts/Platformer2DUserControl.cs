@@ -38,7 +38,6 @@ namespace UnityStandardAssets._2D
             }
 
             // Pass all parameters to the character control script.
-            print("m_Jump == " + m_Jump.ToString());
             m_Character.Move(h, crouch, m_Jump);
             m_Jump = false;
         }
