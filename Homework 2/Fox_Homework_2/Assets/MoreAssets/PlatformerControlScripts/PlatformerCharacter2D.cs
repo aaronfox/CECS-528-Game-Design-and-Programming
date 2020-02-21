@@ -15,6 +15,7 @@ namespace UnityStandardAssets._2D
         [SerializeField] private Text scoreText;
         [SerializeField] private Text gameOverText;
         [SerializeField] private Button restartButton;
+        [SerializeField] private Text weaponTimeLeftText;
 
         private Transform m_GroundCheck;    // A position marking where to check if the player is grounded.
         const float k_GroundedRadius = .2f; // Radius of the overlap circle to determine if grounded
@@ -25,6 +26,7 @@ namespace UnityStandardAssets._2D
         private Rigidbody2D m_Rigidbody2D;
         private bool m_FacingRight = true;  // For determining which way the player is currently facing.
         private int score = 0;
+        private float weaponTimeLeft = 0;
 
         private void Awake()
         {
@@ -34,6 +36,21 @@ namespace UnityStandardAssets._2D
             m_Anim = GetComponent<Animator>();
             m_Rigidbody2D = GetComponent<Rigidbody2D>();
             //scoreText = GetComponent<Text>();
+        }
+
+        private void Update()
+        {
+            // For shooting gears at damaging objects
+            if (weaponTimeLeft > 0)
+            {
+                weaponTimeLeft -= Time.deltaTime;
+                weaponTimeLeftText.text = "Weapon Time Left: " + Mathf.Round(weaponTimeLeft);
+            }
+            else
+            {
+                GetComponent<Platformer2DUserControl>().hasSmiley = false;
+            }
+
         }
 
 
@@ -133,10 +150,9 @@ namespace UnityStandardAssets._2D
             //restartButton.gameObject.SetActive(false);
         }
 
-        void SetHasSmileyFalse()
+        void AddWeaponTime(float weaponTime)
         {
-            GetComponent<Platformer2DUserControl>().hasSmiley = false;
-            print("Now false");
+            weaponTimeLeft += weaponTime;
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -165,9 +181,10 @@ namespace UnityStandardAssets._2D
             }
             if (other.gameObject.CompareTag("Smiley"))
             {
+                float weaponTime = 6.0f;
                 GetComponent<Platformer2DUserControl>().hasSmiley = true;
-                Invoke("SetHasSmileyFalse", 3.0f);
                 other.gameObject.SetActive(false);
+                AddWeaponTime(weaponTime);
             }
         }
 

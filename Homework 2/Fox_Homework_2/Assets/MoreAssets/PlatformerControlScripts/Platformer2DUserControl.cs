@@ -10,6 +10,7 @@ namespace UnityStandardAssets._2D
         private PlatformerCharacter2D m_Character;
         private bool m_Jump;
         public bool hasSmiley = false;
+        [SerializeField] public GameObject cogPrefab;
 
         private void Awake()
         {
@@ -25,22 +26,29 @@ namespace UnityStandardAssets._2D
             }
         }
 
+        private void Shoot()
+        {
+            GameObject cog = Instantiate(cogPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.identity);
+            cog.GetComponent<Rigidbody2D>().velocity = new Vector2(12.0f, 6.0f);
+        }
+
 
         private void FixedUpdate()
         {
             // Read the inputs.
             bool crouch = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.DownArrow);
             float h = Input.GetAxis("Horizontal");
+            print(transform.rotation);
 
             // Pass all parameters to the character control script.
             m_Character.Move(h, crouch, m_Jump);
             m_Jump = false;
 
-            bool shootButton = Input.GetKey(KeyCode.LeftShift);
+            bool shootButton = Input.GetKeyDown(KeyCode.LeftShift);
             // Check if user is able to shoot after getting smiley
             if (shootButton && hasSmiley)
             {
-                print("shooting!");
+                Shoot();
             }
         }
     }
