@@ -45,6 +45,7 @@ namespace UnityStandardAssets._2D
             float before_speed = GetComponent<PlatformerCharacter2D>().m_MaxSpeed;
             GetComponent<PlatformerCharacter2D>().m_MaxSpeed = speed;
             yield return new WaitForSeconds(2.0f);
+            GetComponent<PlatformerCharacter2D>().m_Anim.SetBool("Rolling", false);
             GetComponent<PlatformerCharacter2D>().m_MaxSpeed = before_speed;
         }
 
@@ -70,6 +71,7 @@ namespace UnityStandardAssets._2D
             {
                 GetComponent<PlatformerCharacter2D>().m_Anim.SetBool("Rolling", true);
                 StartCoroutine(GoFaster(25.0f));
+
             }
         }
     }
