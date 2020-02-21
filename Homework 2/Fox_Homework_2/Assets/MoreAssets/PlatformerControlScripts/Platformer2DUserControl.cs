@@ -9,7 +9,7 @@ namespace UnityStandardAssets._2D
     {
         private PlatformerCharacter2D m_Character;
         private bool m_Jump;
-
+        public bool hasSmiley = false;
 
         private void Awake()
         {
@@ -29,12 +29,19 @@ namespace UnityStandardAssets._2D
         private void FixedUpdate()
         {
             // Read the inputs.
-            bool crouch = Input.GetKey(KeyCode.LeftControl);
+            bool crouch = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.DownArrow);
             float h = Input.GetAxis("Horizontal");
 
             // Pass all parameters to the character control script.
             m_Character.Move(h, crouch, m_Jump);
             m_Jump = false;
+
+            bool shootButton = Input.GetKey(KeyCode.LeftShift);
+            // Check if user is able to shoot after getting smiley
+            if (shootButton && hasSmiley)
+            {
+                print("shooting!");
+            }
         }
     }
 }

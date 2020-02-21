@@ -80,8 +80,6 @@ namespace UnityStandardAssets._2D
             {
                 // Reduce the speed if crouching by the crouchSpeed multiplier
                 move = (crouch ? move*m_CrouchSpeed : move);
-                if (crouch)
-                    print("crouching!");
 
                 // The Speed animator parameter is set to the absolute value of the horizontal input.
                 float speed = Mathf.Abs(move) * m_MaxSpeed; 
@@ -127,13 +125,18 @@ namespace UnityStandardAssets._2D
 
         public void RestartGame()
         {
-            print("restarting game");
             SceneManager.LoadScene("SampleScene");
             //score = 0;
             //scoreText.text = "Score: 0";
             //m_Rigidbody2D.constraints = RigidbodyConstraints2D.None;
             //gameOverText.gameObject.SetActive(false);
             //restartButton.gameObject.SetActive(false);
+        }
+
+        void SetHasSmileyFalse()
+        {
+            GetComponent<Platformer2DUserControl>().hasSmiley = false;
+            print("Now false");
         }
 
         void OnTriggerEnter2D(Collider2D other)
@@ -149,7 +152,6 @@ namespace UnityStandardAssets._2D
             if (other.gameObject.CompareTag("Damage"))
             {
                 // Robot is dead
-                print("You died!");
                 // Freeze player so user cannot play after they die
                 m_Anim.SetBool("Dead", true);
                 // Move toward ground and then freeze input on player
@@ -160,6 +162,12 @@ namespace UnityStandardAssets._2D
                 restartButton.gameObject.SetActive(true);
                 //restartButton.enabled = true;
                 //other.gameObject.SetActive(false);
+            }
+            if (other.gameObject.CompareTag("Smiley"))
+            {
+                GetComponent<Platformer2DUserControl>().hasSmiley = true;
+                Invoke("SetHasSmileyFalse", 3.0f);
+                other.gameObject.SetActive(false);
             }
         }
 
