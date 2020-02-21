@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 //using UnityStandardAssets.CrossPlatformInput;
+using System.Collections;
 
 namespace UnityStandardAssets._2D
 {
@@ -26,19 +27,32 @@ namespace UnityStandardAssets._2D
             }
         }
 
-        private void Shoot()
+        IEnumerator ShootCog()
         {
             GameObject cog = Instantiate(cogPrefab, new Vector2(transform.position.x + 0.2f, transform.position.y), Quaternion.identity);
-            cog.GetComponent<Rigidbody2D>().velocity = new Vector2(12.0f, 6.0f);
+            cog.GetComponent<Rigidbody2D>().velocity = new Vector2(12.0f * transform.localScale.x, 6.0f);
+            yield return new WaitForSeconds(1.5f);
+            Destroy(cog);
         }
 
+        private void Shoot()
+        {
+            StartCoroutine(ShootCog());
+        }
+
+        IEnumerator GoFaster(float speed)
+        {
+            float before_speed = GetComponent<PlatformerCharacter2D>().m_MaxSpeed;
+            GetComponent<PlatformerCharacter2D>().m_MaxSpeed = speed;
+            yield return new WaitForSeconds(2.0f);
+            GetComponent<PlatformerCharacter2D>().m_MaxSpeed = before_speed;
+        }
 
         private void FixedUpdate()
         {
             // Read the inputs.
             bool crouch = Input.GetKey(KeyCode.LeftControl) || Input.GetKey(KeyCode.DownArrow);
             float h = Input.GetAxis("Horizontal");
-            print(transform.rotation);
 
             // Pass all parameters to the character control script.
             m_Character.Move(h, crouch, m_Jump);
@@ -49,6 +63,13 @@ namespace UnityStandardAssets._2D
             if (shootButton && hasSmiley)
             {
                 Shoot();
+            }
+
+            bool rollButton = Input.GetKeyDown(KeyCode.RightShift);
+            if (rollButton && GetComponent<PlatformerCharacter2D>().m_Anim.GetFloat("Speed") > 4f)
+            {
+                GetComponent<PlatformerCharacter2D>().m_Anim.SetBool("Rolling", true);
+                StartCoroutine(GoFaster(25.0f));
             }
         }
     }

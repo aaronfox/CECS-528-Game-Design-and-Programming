@@ -963,6 +963,7 @@ MonoBehaviour:
   - {fileID: 2285252728154031107, guid: dd5ffec9167af8a43b18ef2dfc6252ad, type: 3}
   - {fileID: 5286611516107302370, guid: 6f99c126a663544468d5d398ab855f37, type: 3}
   - {fileID: 2574270000031082068, guid: 3de7c3be47f27e247b94e3f19910d6a8, type: 3}
+  - {fileID: 2631450648105034434, guid: 8ede688c51d7d8049bf1ca4df2985ec7, type: 3}
   objects: []
   objectsMinDistance: 5
   objectsMaxDistance: 10
@@ -1625,6 +1626,7 @@ MonoBehaviour:
   gameOverText: {fileID: 495267596}
   restartButton: {fileID: 877348089}
   weaponTimeLeftText: {fileID: 1126169451}
+  m_Anim: {fileID: 0}
 --- !u!50 &914187544
 Rigidbody2D:
   serializedVersion: 4
@@ -2233,6 +2235,7 @@ MonoBehaviour:
   gameOverText: {fileID: 0}
   restartButton: {fileID: 0}
   weaponTimeLeftText: {fileID: 0}
+  m_Anim: {fileID: 0}
 --- !u!95 &1609190110
 Animator:
   serializedVersion: 3
@@ -2607,6 +2610,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: smiley
+      objectReference: {fileID: 0}
+    - target: {fileID: 2574270000031082068, guid: 3de7c3be47f27e247b94e3f19910d6a8,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3de7c3be47f27e247b94e3f19910d6a8, type: 3}

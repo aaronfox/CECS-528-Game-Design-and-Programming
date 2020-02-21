@@ -188,11 +188,22 @@ public class GeneratorScript : MonoBehaviour
             }
         }
 
+        // Ensure Thwomps start at top
+        if(randomIndex == 4)
+        {
+            randomY = 2.55f;
+        }
+
         obj.transform.position = new Vector3(objectPositionX, randomY, 0);
 
 
         //4
         float rotation = Random.Range(objectsMinRotation, objectsMaxRotation);
+        // Ensure Thwomps are not rotated
+        if (randomIndex == 4)
+        {
+            rotation = 0;
+        }
         obj.transform.rotation = Quaternion.Euler(Vector3.forward * rotation);
 
         //5
