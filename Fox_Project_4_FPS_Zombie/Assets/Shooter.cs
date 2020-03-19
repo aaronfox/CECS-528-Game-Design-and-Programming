@@ -6,11 +6,14 @@ public class Shooter : MonoBehaviour
 {
     public float gunDamage = 10f;
     public float gunRange = 50f;
-    public float impactForce = 300f;
+    public float impactForce = 3000f;
+    public float gunFireRate = 3f;
 
     public Camera playerCamera;
     public ParticleSystem flash;
     public ParticleSystem hitObjectEffect;
+
+    private float nextTimeToFire = 0f;
 
     // Start is called before the first frame update
     void Start()
@@ -21,8 +24,9 @@ public class Shooter : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetButtonDown("Fire1"))
+        if(Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
+            nextTimeToFire = Time.time + 1f / gunFireRate;
             Fire();
         }
     }
@@ -31,7 +35,12 @@ public class Shooter : MonoBehaviour
     void Fire()
     {
         // Play flashing particle effect to make it look like bullet is firing
-        flash.Play();
+        //flash.Play();
+        //GameObject gunFlashGameObject = Instantiate(flash.gameObject, transform.position, Quaternion.identity);
+
+        float distance = -.2f;
+        GameObject gunFlashGameObject = Instantiate(flash.gameObject, transform.position + transform.forward * distance, transform.rotation);
+        Destroy(gunFlashGameObject, 2f);
 
         RaycastHit hitInfo;
 
@@ -47,7 +56,7 @@ public class Shooter : MonoBehaviour
             }
 
             //// Push back on enemy if they have a rigidbody
-            //if(hitInfo.rigidbody)
+            //if (hitInfo.rigidbody)
             //{
             //    print("adding force");
             //    hitInfo.rigidbody.AddForce(-hitInfo.normal * impactForce);
