@@ -1,0 +1,5 @@
+I left off on making the zombie AI follow the player. I was referencing this video: https://www.youtube.com/watch?v=xppompv1DBg
+
+This may also be a valid forum for super basic crappy AI, but I probably won't use this: https://answers.unity.com/questions/274809/how-to-make-enemy-chase-player-basic-ai.html
+
+The Google doc is here: https://docs.google.com/document/d/1WBR_Y9DV93y7HGb3LjwR1yNEIPpIFhY0mTqujQKM85Y/edit
