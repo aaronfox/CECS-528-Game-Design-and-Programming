@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Shooter : MonoBehaviour
 {
@@ -14,11 +15,16 @@ public class Shooter : MonoBehaviour
     public ParticleSystem hitObjectEffect;
 
     private float nextTimeToFire = 0f;
+    public int ammo = 15;
+    public Text gunText;
+    private char[] numArray = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        int indexOfFirstNumber = gunText.text.IndexOfAny(numArray);
+        // Change ammo text UI
+        gunText.text = gunText.text.Substring(0, indexOfFirstNumber) + ammo;
     }
 
     // Update is called once per frame
@@ -34,36 +40,47 @@ public class Shooter : MonoBehaviour
     // Use raycasting to fire a bullet
     void Fire()
     {
-        // Play flashing particle effect to make it look like bullet is firing
-        //flash.Play();
-        //GameObject gunFlashGameObject = Instantiate(flash.gameObject, transform.position, Quaternion.identity);
+        int indexOfFirstNumber = gunText.text.IndexOfAny(numArray);
+        ammo = int.Parse(gunText.text.Substring(indexOfFirstNumber));
+        print("ammo == " + ammo);
 
-        float distance = -.2f;
-        GameObject gunFlashGameObject = Instantiate(flash.gameObject, transform.position + transform.forward * distance, transform.rotation);
-        Destroy(gunFlashGameObject, 2f);
-
-        RaycastHit hitInfo;
-
-        // If raycast hits something, then put info into hitInfo and proceed
-        if(Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, gunRange))
+        if (ammo > 0)
         {
-            Debug.Log(hitInfo.transform.name);
-            // Find enemy component in parents
-            Enemy enemy = hitInfo.transform.GetComponentInParent<Enemy>();
-            if (enemy != null)
+
+            float distance = -.2f;
+            GameObject gunFlashGameObject = Instantiate(flash.gameObject, transform.position + transform.forward * distance, transform.rotation);
+            Destroy(gunFlashGameObject, 2f);
+
+            // Subtract one from ammo
+            ammo -= 1;
+            print("indexOfFirstNumber == " + indexOfFirstNumber);
+
+            // Change ammo text UI
+            gunText.text = gunText.text.Substring(0, indexOfFirstNumber) + ammo;
+
+            RaycastHit hitInfo;
+
+            // If raycast hits something, then put info into hitInfo and proceed
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, gunRange))
             {
-                enemy.TakeDamage(gunDamage);
+                Debug.Log(hitInfo.transform.name);
+                // Find enemy component in parents
+                Enemy enemy = hitInfo.transform.GetComponentInParent<Enemy>();
+                if (enemy != null)
+                {
+                    enemy.TakeDamage(gunDamage);
+                }
+
+                //// Push back on enemy if they have a rigidbody
+                //if (hitInfo.rigidbody)
+                //{
+                //    print("adding force");
+                //    hitInfo.rigidbody.AddForce(-hitInfo.normal * impactForce);
+                //}
+
+                GameObject hitObjectEffectGameObject = Instantiate(hitObjectEffect.gameObject, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
+                Destroy(hitObjectEffectGameObject, 2f);
             }
-
-            //// Push back on enemy if they have a rigidbody
-            //if (hitInfo.rigidbody)
-            //{
-            //    print("adding force");
-            //    hitInfo.rigidbody.AddForce(-hitInfo.normal * impactForce);
-            //}
-
-            GameObject hitObjectEffectGameObject = Instantiate(hitObjectEffect.gameObject, hitInfo.point, Quaternion.LookRotation(hitInfo.normal));
-            Destroy(hitObjectEffectGameObject, 2f);
         }
 
     }
