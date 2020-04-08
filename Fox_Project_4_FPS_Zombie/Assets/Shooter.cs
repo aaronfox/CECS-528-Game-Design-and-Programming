@@ -58,8 +58,11 @@ public class Shooter : MonoBehaviour
 
             RaycastHit hitInfo;
 
+            LayerMask layerToIgnore = (1 << 9);
+            layerToIgnore = ~layerToIgnore;
+
             // If raycast hits something, then put info into hitInfo and proceed
-            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, gunRange))
+            if (Physics.Raycast(playerCamera.transform.position, playerCamera.transform.forward, out hitInfo, gunRange, layerToIgnore))
             {
                 Debug.Log(hitInfo.transform.name);
                 // Find enemy component in parents
