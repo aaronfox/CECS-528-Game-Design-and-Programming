@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Zombie : MonoBehaviour
+public class ZoomieZombie : MonoBehaviour
 {
-    public float radiusForChasing = 8.0f;
+    public float radiusForChasing = 15.0f;
     public Transform targetTransform;
-    public float speed = 0.5f;
+    public float speed = 3.0f;
     float YPosition;
     public float radiusForDamaging = 2.0f;
-    public float damageToDeal = 10.0f;
+    public float damageToDeal = 3.0f;
     public Player player;
-    public float damagePlayerRate = 0.8f;
+    public float damagePlayerRate = 1.5f;
     private float nextTimeToDamage = 0f;
 
 
@@ -19,6 +19,8 @@ public class Zombie : MonoBehaviour
     void Start()
     {
         YPosition = transform.position.y;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        targetTransform = player.transform;
     }
 
     // Update is called once per frame
