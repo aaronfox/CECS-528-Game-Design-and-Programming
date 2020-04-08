@@ -48,13 +48,13 @@ public class ZoomieZombie : MonoBehaviour
         }
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radiusForChasing);
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position, radiusForChasing);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, radiusForDamaging);
-    }
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(transform.position, radiusForDamaging);
+    //}
 
 }

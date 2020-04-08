@@ -1922,6 +1922,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Zoomie Zombie
       objectReference: {fileID: 0}
+    - target: {fileID: 8756835038675436954, guid: 71b2484d681a28c4489fcd13d13600e1,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 71b2484d681a28c4489fcd13d13600e1, type: 3}
 --- !u!65 &6726278738364603208
@@ -2216,25 +2221,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &6726278739613156883
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6726278739613156892}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6a6f272b91d07e042913b8d8853df807, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  radiusForChasing: 10
-  targetTransform: {fileID: 2021897552}
-  speed: 4
-  radiusForDamaging: 2
-  damageToDeal: 10
-  player: {fileID: 2021897553}
-  damagePlayerRate: 0.5
 --- !u!1 &6726278739613156892
 GameObject:
   m_ObjectHideFlags: 0
@@ -2245,7 +2231,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6726278739613156895}
   - component: {fileID: 6726278739613156894}
-  - component: {fileID: 6726278739613156883}
+  - component: {fileID: 6726278739613156893}
   - component: {fileID: 6726278739613156881}
   m_Layer: 0
   m_Name: Explosive Zombie
@@ -2254,6 +2240,26 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &6726278739613156893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6726278739613156892}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99328bb422ddf3848b3dfdf4d40a80fe, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radiusForChasing: 8
+  targetTransform: {fileID: 0}
+  speed: 1
+  radiusForDamaging: 4
+  damageToDeal: 40
+  player: {fileID: 0}
+  damagePlayerRate: 0.8
+  explosionEffect: {fileID: 100012, guid: 85271e0b3a086764694959254f952dcd, type: 3}
 --- !u!114 &6726278739613156894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2266,7 +2272,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46279384a7e13714a81fad0f9d7b7594, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 40
+  health: 30
 --- !u!4 &6726278739613156895
 Transform:
   m_ObjectHideFlags: 0
@@ -2575,6 +2581,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Zombie
+      objectReference: {fileID: 0}
+    - target: {fileID: 7784570149449886688, guid: 0108c73c2e99d524d81de28f631cef5c,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7784570149449886691, guid: 0108c73c2e99d524d81de28f631cef5c,
         type: 3}

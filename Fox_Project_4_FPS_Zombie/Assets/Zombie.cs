@@ -19,6 +19,8 @@ public class Zombie : MonoBehaviour
     void Start()
     {
         YPosition = transform.position.y;
+        player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
+        targetTransform = player.transform;
     }
 
     // Update is called once per frame
@@ -41,18 +43,24 @@ public class Zombie : MonoBehaviour
             if (distanceToPlayer <= radiusForDamaging && Time.time >= nextTimeToDamage)
             {
                 nextTimeToDamage = Time.time + 1f / damagePlayerRate;
+                Explode();
                 player.TakeDamage(damageToDeal);
             }
         }
     }
 
-    private void OnDrawGizmosSelected()
+    public void Explode()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, radiusForChasing);
 
-        Gizmos.color = Color.blue;
-        Gizmos.DrawWireSphere(transform.position, radiusForDamaging);
     }
+
+    //private void OnDrawGizmosSelected()
+    //{
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawWireSphere(transform.position, radiusForChasing);
+
+    //    Gizmos.color = Color.blue;
+    //    Gizmos.DrawWireSphere(transform.position, radiusForDamaging);
+    //}
 
 }
