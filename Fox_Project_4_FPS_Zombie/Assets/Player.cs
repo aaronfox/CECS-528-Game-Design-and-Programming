@@ -11,6 +11,8 @@ public class Player : MonoBehaviour
     private readonly char[] numArray = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0' };
     public Color healthWarningColor;
     public Color deathColor;
+    public Color normalHealthColor;
+    public float bandAidHealthBoost = 30f;
 
     // Start is called before the first frame update
     void Start()
@@ -27,9 +29,32 @@ public class Player : MonoBehaviour
         int indexOfFirstNumber = healthText.text.IndexOfAny(numArray);
 
         health = int.Parse(healthText.text.Substring(indexOfFirstNumber));
-
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        // Bandaid
+        if (other.gameObject.tag.Equals("Bandaid"))
+        {
+            // Increase health but make sure health doesn't go over original max health
+            health = Mathf.Min(health + bandAidHealthBoost, originalHealth);
+
+            int indexOfFirstNumber = healthText.text.IndexOfAny(numArray);
+            healthText.text = healthText.text.Substring(0, indexOfFirstNumber) + health;
+
+            if (health <= originalHealth * .5)
+            {
+                // Make text orange to warn player of low health
+                healthText.color = healthWarningColor;
+            }
+            else
+            {
+                healthText.color = normalHealthColor;
+            }
+
+            Destroy(other.gameObject);
+        }
+    }
     private void Die()
     {
         // Make text read bc player is dead
@@ -62,6 +87,7 @@ public class Player : MonoBehaviour
         {
             // Change health text UI
             healthText.text = healthText.text.Substring(0, indexOfFirstNumber) + health;
+            healthText.color = normalHealthColor;
         }
     }
 }
