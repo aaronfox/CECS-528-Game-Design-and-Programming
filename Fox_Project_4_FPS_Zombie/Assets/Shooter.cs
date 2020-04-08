@@ -17,7 +17,7 @@ public class Shooter : MonoBehaviour
     private float nextTimeToFire = 0f;
     public int ammo = 15;
     public Text gunText;
-    private char[] numArray = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
+    private readonly char[] numArray = { '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'};
 
     // Start is called before the first frame update
     void Start()
@@ -42,7 +42,6 @@ public class Shooter : MonoBehaviour
     {
         int indexOfFirstNumber = gunText.text.IndexOfAny(numArray);
         ammo = int.Parse(gunText.text.Substring(indexOfFirstNumber));
-        print("ammo == " + ammo);
 
         if (ammo > 0)
         {
@@ -53,7 +52,6 @@ public class Shooter : MonoBehaviour
 
             // Subtract one from ammo
             ammo -= 1;
-            print("indexOfFirstNumber == " + indexOfFirstNumber);
 
             // Change ammo text UI
             gunText.text = gunText.text.Substring(0, indexOfFirstNumber) + ammo;
